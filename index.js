@@ -93,8 +93,4 @@ let job = new cron.CronJob('*/10 * * * * *', () => {
 job.start()
 
 
-
-binance.exchangeInfo(function(response) {
-    console.log(response);
-});
 client.login(process.env.CLIENT_TOKEN); // Replace the macro with your t

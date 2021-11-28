@@ -21,21 +21,13 @@ const client = new Client({
 client.on('ready', () => {
     console.log(`client ${client.user.tag} (${client.user.id}) is logged in!`);
 
-    // client.channels.cache.get('913098800502018131').send('Hello here!')
 });
 
 
 client.on('messageCreate', async message => {
 
-    // if (message.content === 'ping') {
-    //     message.channel.send('pong');
-    // }
     if (message.mentions.has(client.user.id)) {
-        let mess = "Price of BNB:"
-        let ticker = await binance.prices('BNBBTC');
-
-        console.log(message.content);
-
+     
         if (message.content === '<@!' + client.user.id + '> ping') {
             message.channel.send('pong');
         }
@@ -76,15 +68,13 @@ let job = new cron.CronJob('*/10 * * * * *', () => {
     for (const symb of watchlist) {
 
         binance.candlesticks(symb, "5m", (error, ticks, symbol) => {
-            // console.info(ticks);
+          
             let first_tick = ticks[0];
             let last_tick = ticks[ticks.length - 1];
-            // let [time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored] = first_tick;
-            // let [time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored] = last_tick;
-            // console.info(first_tick+" last close: "+close);
+            
             let increase = last_tick[4] - first_tick[4]
             let change = (increase / first_tick[4]) * 100
-            console.info(symbol + ":   before:" + first_tick[4] + "   after: " + last_tick[4] + "   increase: " + increase + "   change: " + change);
+            
             let message = symbol + ":   before:" + first_tick[4] + "   after: " + last_tick[4] + "   increase: " + increase + "   change: " + change;
 
             if (change > 3) {
@@ -96,9 +86,7 @@ let job = new cron.CronJob('*/10 * * * * *', () => {
         }, { limit: 2 });
 
     }
-    binance.exchangeInfo(function(response) {
-        console.log(response);
-    });
+   
     
 })
 
@@ -106,5 +94,7 @@ job.start()
 
 
 
-
+binance.exchangeInfo(function(response) {
+    console.log(response);
+});
 client.login(process.env.CLIENT_TOKEN); // Replace the macro with your t
